@@ -1,6 +1,7 @@
 package com.robsonleal.autobrilho.service;
 
 import com.robsonleal.autobrilho.dto.CarroDTO;
+import com.robsonleal.autobrilho.dto.RelatorioResponse;
 import com.robsonleal.autobrilho.model.Carro;
 import com.robsonleal.autobrilho.model.Status;
 import com.robsonleal.autobrilho.repository.CarroRepository;
@@ -9,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -130,4 +133,19 @@ public class CarroService {
 		return carrosDTO;
 	}
 
+	public RelatorioResponse relatorio() {
+		List<Carro> carros = carroRepository.findAll();
+		Map<Status, Integer> contadorRelatorio = new HashMap<>();
+
+		for (Carro carro : carros) {
+			contadorRelatorio.put(carro.getStatus(), contadorRelatorio.getOrDefault(carro.getStatus(), 0) + 1);
+		}
+
+		RelatorioResponse relatorio = new RelatorioResponse();
+		for (Map.Entry<Status, Integer> entry : contadorRelatorio.entrySet()) {
+			relatorio.getRelatorio().add(entry.getKey() + ": " + entry.getValue());
+		}
+
+		return relatorio;
+	}
 }

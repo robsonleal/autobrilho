@@ -1,6 +1,7 @@
 package com.robsonleal.autobrilho.controller;
 
 import com.robsonleal.autobrilho.dto.CarroDTO;
+import com.robsonleal.autobrilho.dto.RelatorioResponse;
 import com.robsonleal.autobrilho.model.Status;
 import com.robsonleal.autobrilho.service.CarroService;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,13 @@ public class CarroController {
 		}
 
 		return ResponseEntity.ok(carrosRetornados);
+	}
+
+	@GetMapping("/relatorio")
+	public ResponseEntity<RelatorioResponse> relatorio() {
+		RelatorioResponse relatorio = service.relatorio();
+
+		return ResponseEntity.ok(relatorio);
 	}
 
 }
